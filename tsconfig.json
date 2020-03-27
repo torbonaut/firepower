@@ -7,7 +7,7 @@
     "strict": true,
     "isolatedModules": true,
     "esModuleInterop": true,
-    "baseUrl": "."
+    "baseUrl": ".",
   },
   "include": [
     "src/**/*"
