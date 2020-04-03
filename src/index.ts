@@ -9,35 +9,72 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 };
 
 export class GameScene extends Phaser.Scene {
-    private square: Phaser.GameObjects.Rectangle & { body: Phaser.Physics.Arcade.Body };
+    // private square: Phaser.GameObjects.Rectangle & { body: Phaser.Physics.Arcade.Body };
+    private player: Phaser.Physics.Arcade.Sprite;
 
     constructor() {
         super(sceneConfig);
     }
 
     public create() {
-        this.square = this.add.rectangle(400, 400, 100, 100, 0xFFFFFF) as any;
-        this.physics.add.existing(this.square);
+        // this.square = this.add.rectangle(400, 400, 100, 100, 0xFFFFFF) as any;
+        // this.physics.add.existing(this.square);
+
+        this.player = this.physics.add.sprite(200, 200, 'tank_a_body');
+        this.player.setCollideWorldBounds(true);
+
+        this.anims.create({
+           key: 'tank_move',
+           frames: this.anims.generateFrameNumbers('tank_a_body', { start: 0, end: 1 }),
+           frameRate: 1,
+           repeat: -1
+        });
+
+        this.anims.create({
+           key: 'tank_turn_right',
+           frames: this.anims.
+        });
+    }
+
+    preload() {
+        this.load.spritesheet('tank_a_body','assets/images/tanks/tank_a_body.png', { frameWidth: 29, frameHeight: 29});
     }
 
     public update() {
         const cursorKeys = this.input.keyboard.createCursorKeys();
 
         if (cursorKeys.up.isDown) {
-            this.square.body.setVelocityY(-500);
+
+            if(cursorKeys.right.isDown) {
+
+
+            } else if(cursorKeys.left.isDown) {
+
+            } else {
+                this.player.setVelocityY(-100);
+                this.player.setAngle(0);
+                this.player.anims.play('tank_move');
+            }
         } else if (cursorKeys.down.isDown) {
-            this.square.body.setVelocityY(500);
+            this.player.setVelocityY(100);
+            this.player.setAngle(180);
+            this.player.anims.play('tank_move');
         } else {
-            this.square.body.setVelocityY(0);
+            this.player.setVelocityY(0);
         }
 
         if (cursorKeys.right.isDown) {
-            this.square.body.setVelocityX(500);
+            this.player.setVelocityX(100);
+            this.player.setAngle(90);
+            this.player.anims.play('tank_move');
         } else if (cursorKeys.left.isDown) {
-            this.square.body.setVelocityX(-500);
+            this.player.setVelocityX(-100);
+            this.player.setAngle(270);
+            this.player.anims.play('tank_move');
         } else {
-            this.square.body.setVelocityX(0);
+            this.player.setVelocityX(0);
         }
+
     }
 }
 
